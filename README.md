@@ -95,6 +95,7 @@ rules:
     - "small tweaks"
   conventional:
     enabled: false
+  format: all  # or "any" — see below
 
 ai:
   enabled: true
@@ -116,6 +117,34 @@ If you want defaults plus extras, copy the defaults into your YAML.
 
 Everything else (numbers, booleans, nested objects) deep-merges
 normally — set just one field and the rest stay at their defaults.
+
+### Combining emoji and conventional: `rules.format`
+
+When both `rules.emoji.enabled` and `rules.conventional.enabled` are
+`true`, the `rules.format` setting controls how they combine:
+
+* `all` _(default)_ — title must satisfy **both** the emoji rule and
+  the Conventional Commits rule.
+* `any` — title must satisfy **either** the emoji rule **or** the
+  Conventional Commits rule. Each one passing on its own is enough.
+
+`length` and `banned_phrases` always apply regardless of `format`.
+
+```yaml
+rules:
+  emoji:
+    enabled: true
+    required: true
+  conventional:
+    enabled: true
+  format: any
+```
+
+With the config above, all three of these titles pass:
+
+* `✨ add user pagination endpoint` _(emoji only)_
+* `feat: add user pagination endpoint` _(conventional only)_
+* `✨ feat: add user pagination endpoint` _(both)_
 
 ## How it works
 
@@ -141,6 +170,7 @@ The defaults live in [`src/defaults.ts`](src/defaults.ts). Summary:
 | `length.max_chars`| `72`                                                                   |
 | `banned_phrases`  | `dev fixes`, `wip`, `misc`, `misc updates`, `various changes`, `updates`, `fixes`, `stuff`, `things` |
 | `conventional`    | `enabled: false`                                                       |
+| `format`          | `all` (when both emoji and conventional are enabled)                   |
 | `ai.enabled`      | `true` (only runs if a `gemini-api-key` is provided)                   |
 | `ai.model`        | `gemini-3.1-flash-lite`                                                |
 
