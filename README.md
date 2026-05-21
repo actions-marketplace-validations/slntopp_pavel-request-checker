@@ -34,7 +34,7 @@ jobs:
 That's it. With no other config, the action enforces:
 
 * Required emoji prefix from a small set (`✨`, `🐛`, `📝`, `♻️`, `🧪`,
-  `🔧`, `⚡`, `🚀`).
+  `🔧`, `⚡`, `🚀`, `⭐`, `🧹`, `⚙️`).
 * Minimum 4 words after the emoji.
 * Maximum 72 characters total.
 * A banned-phrase list (`dev fixes`, `wip`, `misc`, etc.).
@@ -136,7 +136,7 @@ The defaults live in [`src/defaults.ts`](src/defaults.ts). Summary:
 | ----------------- | ---------------------------------------------------------------------- |
 | `emoji.enabled`   | `true`                                                                 |
 | `emoji.required`  | `true`                                                                 |
-| `emoji.allowed`   | `✨ feat`, `🐛 fix`, `📝 docs`, `♻️ refactor`, `🧪 test`, `🔧 chore`, `⚡ perf`, `🚀 release` |
+| `emoji.allowed`   | `✨ feat`, `🐛 fix`, `📝 docs`, `♻️ refactor`, `🧪 test`, `🔧 chore`, `⚡ perf`, `🚀 release`, `⭐ highlight`, `🧹 cleanup`, `⚙️ config` |
 | `length.min_words`| `4` (after stripping the emoji)                                        |
 | `length.max_chars`| `72`                                                                   |
 | `banned_phrases`  | `dev fixes`, `wip`, `misc`, `misc updates`, `various changes`, `updates`, `fixes`, `stuff`, `things` |
