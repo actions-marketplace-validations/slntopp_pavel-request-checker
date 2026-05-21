@@ -36371,6 +36371,9 @@ exports.DEFAULT_CONFIG = {
                 '🔧': 'chore',
                 '⚡': 'perf',
                 '🚀': 'release',
+                '⭐': 'highlight',
+                '🧹': 'cleanup',
+                '⚙️': 'config',
             },
         },
         length: {

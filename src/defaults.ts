@@ -14,6 +14,9 @@ export const DEFAULT_CONFIG: Config = {
         '🔧': 'chore',
         '⚡': 'perf',
         '🚀': 'release',
+        '⭐': 'highlight',
+        '🧹': 'cleanup',
+        '⚙️': 'config',
       },
     },
     length: {
