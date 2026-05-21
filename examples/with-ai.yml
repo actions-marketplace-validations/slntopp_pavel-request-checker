@@ -1,0 +1,13 @@
+name: PR Title Check (with AI)
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+permissions:
+  pull-requests: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: slntopp/pavel-request-checker@v1
+        with:
+          gemini-api-key: ${{ secrets.GEMINI_API_KEY }}

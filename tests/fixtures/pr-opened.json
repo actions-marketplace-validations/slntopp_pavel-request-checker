@@ -1,0 +1,14 @@
+{
+  "action": "opened",
+  "number": 42,
+  "pull_request": {
+    "number": 42,
+    "title": "✨ add OAuth login flow",
+    "draft": false
+  },
+  "repository": {
+    "name": "demo",
+    "owner": { "login": "octocat" },
+    "full_name": "octocat/demo"
+  }
+}

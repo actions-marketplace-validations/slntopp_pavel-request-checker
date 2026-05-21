@@ -1,0 +1,50 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  move-major-tag:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Move major tag
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const tag = context.ref.replace('refs/tags/', '');
+            const match = tag.match(/^v(\d+)\.\d+\.\d+$/);
+            if (!match) {
+              core.info(`Tag ${tag} is not a vX.Y.Z release; skipping.`);
+              return;
+            }
+            const majorTag = `v${match[1]}`;
+            const sha = context.sha;
+            try {
+              await github.rest.git.updateRef({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                ref: `tags/${majorTag}`,
+                sha,
+                force: true,
+              });
+              core.info(`Updated ${majorTag} -> ${sha}`);
+            } catch (err) {
+              if (err.status === 422) {
+                await github.rest.git.createRef({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  ref: `refs/tags/${majorTag}`,
+                  sha,
+                });
+                core.info(`Created ${majorTag} -> ${sha}`);
+              } else {
+                throw err;
+              }
+            }
