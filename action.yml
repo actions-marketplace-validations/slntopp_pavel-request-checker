@@ -1,0 +1,37 @@
+name: 'PR Title Check'
+description: 'Validates PR titles against structural rules and an optional AI semantic check'
+author: 'mik'
+branding:
+  icon: 'check-circle'
+  color: 'green'
+
+inputs:
+  github-token:
+    description: 'Token for posting comments. Defaults to github.token.'
+    required: false
+    default: ${{ github.token }}
+  config-path:
+    description: 'Path to ruleset YAML, relative to repo root. If missing, defaults are used.'
+    required: false
+    default: '.github/pr-title-check.yml'
+  gemini-api-key:
+    description: 'Gemini API key. If omitted, semantic check is skipped entirely.'
+    required: false
+  mode:
+    description: 'fail | comment | both'
+    required: false
+    default: 'both'
+  comment-on-pass:
+    description: 'If true, update sticky comment to a success message on pass. If false, delete the comment.'
+    required: false
+    default: 'true'
+
+outputs:
+  passed:
+    description: 'true if all enabled checks passed'
+  reasons:
+    description: 'JSON array of failure reason strings (empty if passed)'
+
+runs:
+  using: 'node24'
+  main: 'dist/index.js'

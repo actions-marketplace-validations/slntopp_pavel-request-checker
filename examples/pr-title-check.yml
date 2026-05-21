@@ -1,0 +1,26 @@
+# Drop this file at .github/pr-title-check.yml in the consumer repo
+# to override the defaults.
+rules:
+  emoji:
+    enabled: true
+    required: true
+    allowed:
+      "🎨": style
+      "🔥": remove
+      "✨": feat
+      "🐛": fix
+  length:
+    min_words: 5
+    max_chars: 72
+  banned_phrases:
+    - "dev fixes"
+    - "small tweaks"
+  conventional:
+    enabled: false
+
+ai:
+  enabled: true
+  model: gemini-3.1-flash-lite
+  guidance: |
+    We work on a payments system. Reject titles that don't name the
+    specific service or endpoint affected.

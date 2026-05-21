@@ -1,0 +1,11 @@
+name: PR Title Check
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+permissions:
+  pull-requests: write
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: slntopp/pavel-request-checker@v1
