@@ -19,6 +19,7 @@ export interface RulesConfig {
   length: LengthRuleConfig;
   banned_phrases: string[];
   conventional: ConventionalRuleConfig;
+  format: 'all' | 'any';
 }
 
 export interface AiConfig {
@@ -38,7 +39,8 @@ export type RuleId =
   | 'too_short'
   | 'too_long'
   | 'banned_phrase'
-  | 'conventional';
+  | 'conventional'
+  | 'format';
 
 export interface RuleResult {
   rule: RuleId;

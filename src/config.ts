@@ -27,6 +27,7 @@ const RulesSchema = z.object({
   length: LengthSchema.optional(),
   banned_phrases: z.array(z.string()).optional(),
   conventional: ConventionalSchema.optional(),
+  format: z.enum(['all', 'any']).optional(),
 });
 
 const AiSchema = z.object({

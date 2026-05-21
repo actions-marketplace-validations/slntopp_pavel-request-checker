@@ -36262,6 +36262,7 @@ const RulesSchema = zod_1.z.object({
     length: LengthSchema.optional(),
     banned_phrases: zod_1.z.array(zod_1.z.string()).optional(),
     conventional: ConventionalSchema.optional(),
+    format: zod_1.z.enum(['all', 'any']).optional(),
 });
 const AiSchema = zod_1.z.object({
     enabled: zod_1.z.boolean().optional(),
@@ -36394,6 +36395,7 @@ exports.DEFAULT_CONFIG = {
         conventional: {
             enabled: false,
         },
+        format: 'all',
     },
     ai: {
         enabled: true,
@@ -36965,11 +36967,32 @@ const banned_1 = __nccwpck_require__(5471);
 const conventional_1 = __nccwpck_require__(3701);
 function runRules(title, config) {
     const failures = [];
-    failures.push(...(0, emoji_1.checkEmoji)(title, config.rules.emoji));
+    const emojiFailures = (0, emoji_1.checkEmoji)(title, config.rules.emoji);
+    const conventionalFailures = (0, conventional_1.checkConventional)(title, config.rules.conventional, config.rules.emoji);
+    const bothActive = config.rules.emoji.enabled && config.rules.conventional.enabled;
+    if (config.rules.format === 'any' && bothActive) {
+        const emojiPassed = emojiFailures.length === 0;
+        const conventionalPassed = conventionalFailures.length === 0;
+        if (!emojiPassed && !conventionalPassed) {
+            failures.push({
+                rule: 'format',
+                message: buildAnyModeMessage(emojiFailures, conventionalFailures),
+            });
+        }
+    }
+    else {
+        failures.push(...emojiFailures, ...conventionalFailures);
+    }
     failures.push(...(0, length_1.checkLength)(title, config.rules.length));
     failures.push(...(0, banned_1.checkBanned)(title, config.rules.banned_phrases));
-    failures.push(...(0, conventional_1.checkConventional)(title, config.rules.conventional, config.rules.emoji));
     return failures;
+}
+function buildAnyModeMessage(emojiFailures, conventionalFailures) {
+    const emojiPart = emojiFailures.map((f) => f.message).join(' ');
+    const conventionalPart = conventionalFailures.map((f) => f.message).join(' ');
+    return ('Title must match either format. ' +
+        `Emoji prefix: ${emojiPart} ` +
+        `Conventional Commits: ${conventionalPart}`);
 }
 
 

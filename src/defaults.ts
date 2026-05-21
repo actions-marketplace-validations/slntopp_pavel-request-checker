@@ -37,6 +37,7 @@ export const DEFAULT_CONFIG: Config = {
     conventional: {
       enabled: false,
     },
+    format: 'all',
   },
   ai: {
     enabled: true,
