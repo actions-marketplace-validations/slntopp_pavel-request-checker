@@ -29,8 +29,6 @@ export const DEFAULT_CONFIG: Config = {
       'misc',
       'misc updates',
       'various changes',
-      'updates',
-      'fixes',
       'stuff',
       'things',
     ],

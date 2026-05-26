@@ -168,7 +168,7 @@ The defaults live in [`src/defaults.ts`](src/defaults.ts). Summary:
 | `emoji.allowed`   | `✨ feat`, `🐛 fix`, `📝 docs`, `♻️ refactor`, `🧪 test`, `🔧 chore`, `⚡ perf`, `🚀 release`, `⭐ highlight`, `🧹 cleanup`, `⚙️ config` |
 | `length.min_words`| `4` (after stripping the emoji)                                        |
 | `length.max_chars`| `72`                                                                   |
-| `banned_phrases`  | `dev fixes`, `wip`, `misc`, `misc updates`, `various changes`, `updates`, `fixes`, `stuff`, `things` |
+| `banned_phrases`  | `dev fixes`, `wip`, `misc`, `misc updates`, `various changes`, `stuff`, `things` |
 | `conventional`    | `enabled: false`                                                       |
 | `format`          | `all` (when both emoji and conventional are enabled)                   |
 | `ai.enabled`      | `true` (only runs if a `gemini-api-key` is provided)                   |
