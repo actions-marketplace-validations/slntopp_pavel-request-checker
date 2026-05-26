@@ -36387,8 +36387,6 @@ exports.DEFAULT_CONFIG = {
             'misc',
             'misc updates',
             'various changes',
-            'updates',
-            'fixes',
             'stuff',
             'things',
         ],
