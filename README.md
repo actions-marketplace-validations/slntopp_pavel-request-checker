@@ -64,6 +64,7 @@ and a note is added to the sticky comment.
 | `gemini-api-key`   | _(unset)_                          | Enables the AI semantic check when present.                              |
 | `mode`             | `both`                             | `fail` (set the job red), `comment` (only comment), or `both`.           |
 | `comment-on-pass`  | `true`                             | If `false`, the sticky comment is deleted when the title passes.         |
+| `skip-bots`        | `true`                             | If `false`, title rules are also enforced on bot PRs (dependabot, etc.). |
 
 ## Outputs
 
@@ -177,6 +178,10 @@ The defaults live in [`src/defaults.ts`](src/defaults.ts). Summary:
 ## Behavior notes
 
 * **Draft PRs**: skipped with success.
+* **Bot PRs**: PRs opened by bots (e.g. `dependabot[bot]`, `renovate[bot]`)
+  are skipped with success by default, since automated dependency-bump
+  titles legitimately contain words like `updates` and can't carry an
+  emoji prefix. Set `skip-bots: false` to enforce the rules on them too.
 * **Non-pull_request events**: skipped with a warning. The action
   should only be wired up against `pull_request` (or
   `pull_request_target`).

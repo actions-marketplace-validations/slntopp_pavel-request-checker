@@ -25,6 +25,10 @@ inputs:
     description: 'If true, update sticky comment to a success message on pass. If false, delete the comment.'
     required: false
     default: 'true'
+  skip-bots:
+    description: 'If true, skip PRs opened by bots (e.g. dependabot, renovate) with a pass.'
+    required: false
+    default: 'true'
 
 outputs:
   passed:
