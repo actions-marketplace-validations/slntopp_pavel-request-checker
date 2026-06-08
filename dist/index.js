@@ -36574,10 +36574,13 @@ function extractPullRequest() {
     const pr = ctx.payload.pull_request;
     if (!pr)
         return null;
+    const login = pr.user?.login ?? '';
     return {
         number: pr.number,
         title: pr.title ?? '',
         draft: Boolean(pr.draft),
+        author: login,
+        isBot: pr.user?.type === 'Bot' || login.endsWith('[bot]'),
         owner: ctx.repo.owner,
         repo: ctx.repo.repo,
     };
@@ -36648,6 +36651,7 @@ async function run() {
         const geminiKey = core.getInput('gemini-api-key');
         const mode = parseMode(core.getInput('mode') || 'both');
         const commentOnPass = (core.getInput('comment-on-pass') || 'true').toLowerCase() === 'true';
+        const skipBots = (core.getInput('skip-bots') || 'true').toLowerCase() === 'true';
         const pr = (0, context_1.extractPullRequest)();
         if (!pr) {
             core.warning(`pr-title-check expects a pull_request event; got "${github.context.eventName}". Skipping.`);
@@ -36656,6 +36660,12 @@ async function run() {
         }
         if (pr.draft) {
             core.info('PR is a draft; skipping pr-title-check.');
+            setOutputs(true, []);
+            return;
+        }
+        if (skipBots && pr.isBot) {
+            core.info(`PR #${pr.number} authored by bot "${pr.author}"; skipping pr-title-check. ` +
+                'Set skip-bots: false to enforce title rules on bot PRs.');
             setOutputs(true, []);
             return;
         }

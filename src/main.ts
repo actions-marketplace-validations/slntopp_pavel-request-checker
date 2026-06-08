@@ -24,6 +24,7 @@ export async function run(): Promise<void> {
     const geminiKey = core.getInput('gemini-api-key');
     const mode = parseMode(core.getInput('mode') || 'both');
     const commentOnPass = (core.getInput('comment-on-pass') || 'true').toLowerCase() === 'true';
+    const skipBots = (core.getInput('skip-bots') || 'true').toLowerCase() === 'true';
 
     const pr = extractPullRequest();
     if (!pr) {
@@ -36,6 +37,15 @@ export async function run(): Promise<void> {
 
     if (pr.draft) {
       core.info('PR is a draft; skipping pr-title-check.');
+      setOutputs(true, []);
+      return;
+    }
+
+    if (skipBots && pr.isBot) {
+      core.info(
+        `PR #${pr.number} authored by bot "${pr.author}"; skipping pr-title-check. ` +
+          'Set skip-bots: false to enforce title rules on bot PRs.',
+      );
       setOutputs(true, []);
       return;
     }
